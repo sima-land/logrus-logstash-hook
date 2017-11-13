@@ -3,6 +3,7 @@ package logrus_logstash
 import (
 	"encoding/json"
 	"fmt"
+	"time"
 	"github.com/sirupsen/logrus"
 	"net"
 )
@@ -28,7 +29,7 @@ func (h *Hook) format(entry *logrus.Entry) ([]byte, error) {
 	for k, v := range entry.Data {
 		fields[k] = v
 	}
-	fields["@timestamp"] = entry.Time.Format(logrus.DefaultTimestampFormat)
+	fields["@timestamp"] = entry.Time.Format(time.RFC3339)
 	fields["message"] = entry.Message
 	fields["level"] = entry.Level.String()
 	fields["type"] = h.typeName
